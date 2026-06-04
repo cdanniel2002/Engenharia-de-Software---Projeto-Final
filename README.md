@@ -26,24 +26,9 @@ O FinanSee é desenvolvido utilizando as seguintes tecnologias:
     - [PlantUML](https://plantuml.com/)
 
 
-## Documentação do Projeto 📂
-A documentação completa do projeto está disponível nos seguintes links:
-- [Documento de Detalhamento do Projeto](https://github.com/LucasMairon/Sistema_de_Gestao_Pessoal_Financeira/blob/main/documents/Documento_Detalhamento_Projeto.pdf)
-
-- [Documento Especificacao Requisitos](https://github.com/LucasMairon/Sistema_de_Gestao_Pessoal_Financeira/blob/main/documents/Documento_Especificacao_Requisitos.pdf)
-
-- [Plano de Especificação Formal](https://github.com/LucasMairon/Sistema_de_Gestao_Pessoal_Financeira/blob/main/documents/Plano_Para_a_Especifica%C3%A7%C3%A3o_Formal.pdf)
-
-- [Diagrama de Caso de Uso](https://github.com/LucasMairon/Sistema_de_Gestao_Pessoal_Financeira/blob/main/documents/use_case_diagram/diagrama_caso_de_uso.png)
-
-- [Diagrama de Classes](https://github.com/LucasMairon/Sistema_de_Gestao_Pessoal_Financeira/blob/main/documents/class_diagram/Diagrama%20de%20classes.png)
-
-- [Diagrama Lógico](https://github.com/LucasMairon/Sistema_de_Gestao_Pessoal_Financeira/blob/main/documents/logic_diagram/Diagrama%20L%C3%B3gico.png)
 
 ## Equipe 👨‍💻
-- [Antonio Welles Queiroz de Paiva](https://github.com/wellespaiva-dev)
-- [Carlos Danniel Gonçalves da Silva](https://github.com/cdanniel2002)
-- [Cicero Araújo Rodrigues](https://github.com/ciceroa77)
-- [Fernando Umbilino Alves](https://github.com/fernandoalvess)
-- [Lidiana Costa de Souza](https://github.com/Lidianacosta)
-- [Lucas Mairon Oliveira Camilo](https://github.com/LucasMairon)
+- CARLOS DANNIEL GONÇALVES DA SILVA
+- LEONARDO AUGUSTO SILVA DE SOUSA
+- PEDRO CARLOS LIMA PAIVA
+- SAMUEL IAGO DE FARIAS CABRAL
