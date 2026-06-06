@@ -86,74 +86,6 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoadingOutlays(false));
   }, []);
 
-  const createOutlay = useCallback(
-    (...params) => {
-      setLoadingOutlays(true);
-      const [name, description, value, date, category, status] = params;
-      const data = {
-        name,
-        description,
-        value: value?.replace(/\./g, "").replace(",", "."),
-        date: formatDate3(date),
-        categories: [category],
-        status,
-      };
-      api
-        .post("expenses/", data)
-        .then(() => {
-          getOutlays();
-          toast.success("Despesa criada com sucesso!");
-        })
-        .catch((error) =>
-          handleApiError(error, "Erro ao criar despesa. Tente novamente.")
-        )
-        .finally(() => setLoadingOutlays(false));
-    },
-    [getOutlays]
-  );
-
-  const editOutlay = useCallback(
-    (id, name, description, value, date, category, status) => {
-      setLoadingOutlays(true);
-      const data = {
-        name,
-        description,
-        value: value?.replace(/\./g, "").replace(",", "."),
-        date: formatDate3(date),
-        categories: [category],
-        status,
-      };
-      api
-        .put(`expenses/${id}`, data)
-        .then(() => {
-          getOutlays();
-          toast.success("Despesa editada com sucesso!");
-        })
-        .catch((error) =>
-          handleApiError(error, "Erro ao editar despesa. Tente novamente.")
-        )
-        .finally(() => setLoadingOutlays(false));
-    },
-    [getOutlays]
-  );
-
-  const deleteOutlay = useCallback(
-    (id) => {
-      setLoadingOutlays(true);
-      api
-        .delete(`expenses/${id}`)
-        .then(() => {
-          getOutlays();
-          toast.success("Despesa excluída com sucesso!");
-        })
-        .catch((error) =>
-          handleApiError(error, "Erro ao excluir despesa. Tente novamente.")
-        )
-        .finally(() => setLoadingOutlays(false));
-    },
-    [getOutlays]
-  );
-
   const getOutlayForms = useCallback(() => {
     setLoadingOutlays(true);
     api
@@ -168,7 +100,7 @@ export const AuthProvider = ({ children }) => {
   const getOutlayFormsCurrent = useCallback(() => {
     setLoadingOutlays(true);
     api
-      .get("periods/current_period")
+      .get("periods/current_period/")
       .then((resp) => setOutlayFormsCurrent(resp.data))
       .catch((error) =>
         handleApiError(error, "Erro ao buscar dados de despesas.")
@@ -186,6 +118,82 @@ export const AuthProvider = ({ children }) => {
       )
       .finally(() => setLoadingOutlays(false));
   }, []);
+
+  // Recarrega lista e dados do dashboard após criar/editar/excluir despesa.
+  const refreshOutlayData = useCallback(() => {
+    getOutlays();
+    getOutlayForms();
+    getOutlayFormsCurrent();
+    getOutlayEvolution();
+  }, [getOutlays, getOutlayForms, getOutlayFormsCurrent, getOutlayEvolution]);
+
+  const createOutlay = useCallback(
+    (...params) => {
+      setLoadingOutlays(true);
+      const [name, description, value, date, category, status] = params;
+      const data = {
+        name,
+        description,
+        value: value?.replace(/\./g, "").replace(",", "."),
+        date: formatDate3(date),
+        categories: category ? [category] : [],
+        status,
+      };
+      api
+        .post("expenses/", data)
+        .then(() => {
+          refreshOutlayData();
+          toast.success("Despesa criada com sucesso!");
+        })
+        .catch((error) =>
+          handleApiError(error, "Erro ao criar despesa. Tente novamente.")
+        )
+        .finally(() => setLoadingOutlays(false));
+    },
+    [refreshOutlayData]
+  );
+
+  const editOutlay = useCallback(
+    (id, name, description, value, date, category, status) => {
+      setLoadingOutlays(true);
+      const data = {
+        name,
+        description,
+        value: value?.replace(/\./g, "").replace(",", "."),
+        date: formatDate3(date),
+        categories: category ? [category] : [],
+        status,
+      };
+      api
+        .put(`expenses/${id}/`, data)
+        .then(() => {
+          refreshOutlayData();
+          toast.success("Despesa editada com sucesso!");
+        })
+        .catch((error) =>
+          handleApiError(error, "Erro ao editar despesa. Tente novamente.")
+        )
+        .finally(() => setLoadingOutlays(false));
+    },
+    [refreshOutlayData]
+  );
+
+  const deleteOutlay = useCallback(
+    (id) => {
+      setLoadingOutlays(true);
+      api
+        .delete(`expenses/${id}/`)
+        .then(() => {
+          refreshOutlayData();
+          toast.success("Despesa excluída com sucesso!");
+        })
+        .catch((error) =>
+          handleApiError(error, "Erro ao excluir despesa. Tente novamente.")
+        )
+        .finally(() => setLoadingOutlays(false));
+    },
+    [refreshOutlayData]
+  );
 
   const exportPdfOutlay = useCallback(() => {
     setLoadingOutlays(true);
@@ -277,10 +285,10 @@ export const AuthProvider = ({ children }) => {
       setLoadingUser(true);
       const data = {
         name,
-        cpf: cpf?.replace(/\.|-/g, ""),
+        cpf: cpf ? cpf.replace(/\.|-/g, "") : null,
         email,
-        date_of_birth,
-        phone_number: phone_number?.replace(/\D/g, ""),
+        date_of_birth: date_of_birth || null,
+        phone_number: phone_number ? phone_number.replace(/\D/g, "") : null,
         income,
       };
       api
@@ -290,7 +298,7 @@ export const AuthProvider = ({ children }) => {
           toast.success("Perfil atualizado com sucesso!");
         })
         .catch((error) =>
-          handleApiError(error, "Não foi possível atualizar o perfil.")
+          handleApiError2(error, "Não foi possível atualizar o perfil.")
         )
         .finally(() => setLoadingUser(false));
     },

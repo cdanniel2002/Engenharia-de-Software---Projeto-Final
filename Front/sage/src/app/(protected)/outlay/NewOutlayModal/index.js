@@ -135,11 +135,29 @@ export const NewOutlayModal = ({
     handleOpenChange(false);
   };
 
+  // Marca a despesa como paga direto da visualização, sem entrar na edição.
+  const handlePay = () => {
+    if (onSubmit) {
+      onSubmit({
+        name,
+        description,
+        value,
+        date,
+        category,
+        status: "P",
+        id,
+        type: "edit",
+      });
+      setStatus("P");
+      handleOpenChange2(false);
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!name || !description || !value || !date || !category || !status) {
-      toast.error("Por favor, preencha todos os campos.");
+    if (!name || !description || !value || !date || !status) {
+      toast.error("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
 
@@ -232,7 +250,7 @@ export const NewOutlayModal = ({
                   id="category"
                   disabled={type === "view"}
                 >
-                  <option value=""></option>
+                  <option value="">Sem categoria</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id}>
                       {cat.name}
@@ -249,7 +267,9 @@ export const NewOutlayModal = ({
                   id="status"
                   disabled={type === "view"}
                 >
-                  <option value=""></option>
+                  <option value="" disabled>
+                    Selecione o status
+                  </option>
                   <option value="AP">A pagar</option>
                   <option value="P">Pago</option>
                 </Select>
@@ -265,7 +285,20 @@ export const NewOutlayModal = ({
                   Cancelar
                 </CancelButton>
               )}
-              {type === "view" && (
+              {type === "view" && status === "AP" && (
+                <>
+                  <CancelButton
+                    type="button"
+                    onClick={() => handleOpenChange2(false)}
+                  >
+                    Voltar
+                  </CancelButton>
+                  <ConfirmButton type="button" onClick={handlePay}>
+                    Marcar como paga
+                  </ConfirmButton>
+                </>
+              )}
+              {type === "view" && status !== "AP" && (
                 <CancelButton2
                   type="button"
                   onClick={() => handleOpenChange2(false)}

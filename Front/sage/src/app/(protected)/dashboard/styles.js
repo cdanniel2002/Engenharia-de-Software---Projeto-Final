@@ -37,6 +37,8 @@ export const MainContent = styled.main`
 export const Header = styled.header`
   h1 {
     font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     color: ${colors.textPrimary};
     margin: 0;
   }
@@ -73,8 +75,15 @@ export const SummaryContainer = styled.div`
 export const Card = styled.div`
   background-color: ${colors.white};
   padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 14px;
+  border: 1px solid ${colors.border};
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
 
   .card-header {
     display: flex;
@@ -209,7 +218,18 @@ export const TransactionTable = styled.table`
 
   th {
     color: ${colors.textSecondary};
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  tbody tr {
+    transition: background-color 0.15s ease;
+  }
+
+  tbody tr:hover {
+    background-color: ${colors.lightGreen};
   }
 
   @media (max-width: 768px) {

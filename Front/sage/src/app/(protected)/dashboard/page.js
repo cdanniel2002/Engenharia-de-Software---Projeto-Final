@@ -98,11 +98,11 @@ export default function Dashboard() {
           </Card>
           <Card>
             <div className="card-header">
-              <span>DESPESA ATUAL</span>
+              <span>DESPESAS A PAGAR</span>
             </div>
             <div className="value">
               R${" "}
-              {outlayFormsCurrent?.monthly_expense
+              {outlayFormsCurrent?.expenses_to_pay
                 ?.toFixed(2)
                 .replace(".", ",")}
             </div>

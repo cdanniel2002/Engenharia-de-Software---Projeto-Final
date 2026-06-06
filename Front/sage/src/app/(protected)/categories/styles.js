@@ -109,11 +109,14 @@ export const NewCategoryButton = styled.button`
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, box-shadow 0.2s ease, transform 0.2s ease;
   white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.25);
 
   &:hover {
     background-color: #218838;
+    box-shadow: 0 4px 14px rgba(40, 167, 69, 0.35);
+    transform: translateY(-1px);
   }
 
   @media (max-width: 768px) {
@@ -135,12 +138,18 @@ export const CategoriesGrid = styled.div`
 export const CategoryCard = styled.div`
   background-color: ${colors.white};
   border: 1px solid ${colors.border};
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   position: relative;
   display: flex;
   flex-direction: column;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
 `;
 
 export const CardActions = styled.div`
