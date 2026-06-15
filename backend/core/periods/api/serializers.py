@@ -55,13 +55,15 @@ class PeriodSerializer(serializers.ModelSerializer):
 
     expenses = ExpenseSerializer(many=True, read_only=True)
     monthly_expense = serializers.SerializerMethodField()
+    expenses_to_pay = serializers.SerializerMethodField()
+    expenses_paid = serializers.SerializerMethodField()
     balance = serializers.SerializerMethodField()
     user_balance = serializers.SerializerMethodField()
 
     class Meta:
         model = Period
-        fields = ('id', 'expenses', 'monthly_expense',
-                  'balance', 'month', 'user_balance')
+        fields = ('id', 'expenses', 'monthly_expense', 'expenses_to_pay',
+                  'expenses_paid', 'balance', 'month', 'user_balance')
         extra_kwargs = {
             'id': {
                 'read_only': True,
@@ -72,6 +74,12 @@ class PeriodSerializer(serializers.ModelSerializer):
             },
             'monthly_expense': {
                 'help_text': 'Total expenses for the month'
+            },
+            'expenses_to_pay': {
+                'help_text': 'Total of unpaid (A Pagar) expenses for the month'
+            },
+            'expenses_paid': {
+                'help_text': 'Total of paid expenses for the month'
             },
             'balance': {
                 'help_text': 'Remaining balance after expenses'
@@ -111,6 +119,36 @@ class PeriodSerializer(serializers.ModelSerializer):
         monthly_expense = obj.expenses.aggregate(
             total=Sum('value'))['total'] or 0.0
         return float(monthly_expense)
+
+    @extend_schema_field(float)
+    def get_expenses_to_pay(self, obj):
+        """
+        Calculates the total of unpaid (A Pagar) expenses.
+
+        Args:
+            obj: Period instance
+
+        Returns:
+            float: Total of expenses with status 'AP'
+        """
+        total = obj.expenses.filter(status='AP').aggregate(
+            total=Sum('value'))['total'] or 0.0
+        return float(total)
+
+    @extend_schema_field(float)
+    def get_expenses_paid(self, obj):
+        """
+        Calculates the total of paid expenses.
+
+        Args:
+            obj: Period instance
+
+        Returns:
+            float: Total of expenses with status 'P'
+        """
+        total = obj.expenses.filter(status='P').aggregate(
+            total=Sum('value'))['total'] or 0.0
+        return float(total)
 
     @extend_schema_field(float)
     def get_balance(self, obj):

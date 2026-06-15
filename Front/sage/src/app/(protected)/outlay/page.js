@@ -159,11 +159,11 @@ const Outlay = () => {
       return list;
     }
 
-    return list?.filter((item) => {
-      if (item?.categories[0]?.id) {
-        return item?.categories[0]?.id === category;
-      }
-    });
+    if (category === "none") {
+      return list?.filter((item) => !item?.categories[0]?.id);
+    }
+
+    return list?.filter((item) => item?.categories[0]?.id === category);
   };
 
   useEffect(() => {
@@ -325,7 +325,8 @@ const Outlay = () => {
                   value={filterCategories}
                   onChange={(e) => setFilterCategories(e.target.value)}
                 >
-                  <option>Todas as categorias</option>
+                  <option value="">Todas as categorias</option>
+                  <option value="none">Sem categoria</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id}>
                       {cat.name}
@@ -353,7 +354,7 @@ const Outlay = () => {
                       <td data-label="Nome">{expense?.name}</td>
                       <td data-label="Categoria">
                         <CategoryTag>
-                          {expense?.categories[0]?.name || ""}
+                          {expense?.categories[0]?.name || "Sem categoria"}
                         </CategoryTag>
                       </td>
                       <td data-label="Descrição">{expense?.description}</td>

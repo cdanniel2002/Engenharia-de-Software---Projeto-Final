@@ -86,14 +86,18 @@ export const Button = styled.button`
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease,
+    transform 0.2s ease;
   background-color: ${colors.primary};
   color: ${colors.white};
   border: none;
   white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.25);
 
   &:hover {
     background-color: ${colors.primaryHover};
+    box-shadow: 0 4px 14px rgba(40, 167, 69, 0.35);
+    transform: translateY(-1px);
   }
 `;
 
@@ -123,9 +127,15 @@ export const SummaryContainer = styled.section`
 export const Card = styled.div`
   background-color: ${colors.white};
   padding: 1.5rem;
-  border-radius: 0.75rem;
+  border-radius: 0.875rem;
   border: 1px solid ${colors.border};
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
 `;
 
 export const CardTitle = styled.h3`
